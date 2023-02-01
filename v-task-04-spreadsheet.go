@@ -41,16 +41,16 @@ func main() {
 	for count := 0; count < t; count++ {
 		var n, m int
 		fmt.Scan(&n, &m)
-		t := NewTable(n, m)
+		table := NewTable(n, m)
 
 		var k int
 		fmt.Scan(&k)
 		for i := 0; i < k; i++ {
 			fmt.Scan(&c)
-			sort.Sort(t)
+			sort.Sort(table)
 		}
 
-		for _, tt := range t {
+		for _, tt := range table {
 			fmt.Println(tt)
 		}
 		fmt.Println()
