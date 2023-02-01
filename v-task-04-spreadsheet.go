@@ -50,8 +50,8 @@ func main() {
 			sort.Sort(table)
 		}
 
-		for _, tt := range table {
-			fmt.Println(tt)
+		for _, row := range table {
+			fmt.Println(row)
 		}
 		fmt.Println()
 	}
