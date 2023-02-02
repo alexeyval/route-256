@@ -8,10 +8,9 @@ import (
 
 type Table struct {
 	row []int
-	c   *int
 }
 
-func NewTable(n, m int, c *int) ByRow {
+func NewTable(n, m int) ByRow {
 	table := make([]Table, n)
 	for i := range table {
 		row := make([]int, m)
@@ -19,38 +18,41 @@ func NewTable(n, m int, c *int) ByRow {
 			fmt.Scan(&row[j])
 		}
 		table[i].row = row
-		table[i].c = c
 	}
-	return table
+	return ByRow{tables: table, len: m}
 }
 
 func (t Table) String() string {
 	return strings.Trim(fmt.Sprint(t.row), "[]")
 }
 
-type ByRow []Table
+type ByRow struct {
+	tables []Table
+	c      int
+	len    int
+}
 
-func (a ByRow) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-func (a ByRow) Less(i, j int) bool { return a[i].row[*a[i].c-1] < a[j].row[*a[i].c-1] }
-func (a ByRow) Len() int           { return len(a) }
+func (a ByRow) Swap(i, j int)      { a.tables[i], a.tables[j] = a.tables[j], a.tables[i] }
+func (a ByRow) Less(i, j int) bool { return a.tables[i].row[a.c-1] < a.tables[i].row[a.c-1] }
+func (a ByRow) Len() int           { return a.len }
 
 func main() {
 	var t int
 	fmt.Scan(&t)
 
 	for count := 0; count < t; count++ {
-		var n, m, c int
+		var n, m int
 		fmt.Scan(&n, &m)
-		table := NewTable(n, m, &c)
+		byRow := NewTable(n, m)
 
 		var k int
 		fmt.Scan(&k)
 		for i := 0; i < k; i++ {
-			fmt.Scan(&c)
-			sort.Sort(table)
+			fmt.Scan(&byRow.c)
+			sort.Sort(byRow)
 		}
 
-		for _, row := range table {
+		for _, row := range byRow.tables {
 			fmt.Println(row)
 		}
 		fmt.Println()
