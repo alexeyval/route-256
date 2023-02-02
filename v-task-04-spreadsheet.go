@@ -6,12 +6,12 @@ import (
 	"strings"
 )
 
-type Table struct {
+type Row struct {
 	row []int
 }
 
-func NewTable(n, m int) ByRow {
-	table := make([]Table, n)
+func NewTable(n, m int) []Row {
+	table := make([]Row, n)
 	for i := range table {
 		row := make([]int, m)
 		for j := range row {
@@ -19,22 +19,22 @@ func NewTable(n, m int) ByRow {
 		}
 		table[i].row = row
 	}
-	return ByRow{tables: table, len: n}
+	return table
 }
 
-func (t Table) String() string {
+func (t Row) String() string {
 	return strings.Trim(fmt.Sprint(t.row), "[]")
 }
 
-type ByRow struct {
-	tables []Table
-	c      int
-	len    int
+type ByColumn struct {
+	table []Row
+	c     int
+	len   int
 }
 
-func (a ByRow) Swap(i, j int)      { a.tables[i], a.tables[j] = a.tables[j], a.tables[i] }
-func (a ByRow) Less(i, j int) bool { return a.tables[i].row[a.c-1] < a.tables[j].row[a.c-1] }
-func (a ByRow) Len() int           { return a.len }
+func (a ByColumn) Swap(i, j int)      { a.table[i], a.table[j] = a.table[j], a.table[i] }
+func (a ByColumn) Less(i, j int) bool { return a.table[i].row[a.c-1] < a.table[j].row[a.c-1] }
+func (a ByColumn) Len() int           { return a.len }
 
 func main() {
 	var t int
@@ -43,16 +43,17 @@ func main() {
 	for count := 0; count < t; count++ {
 		var n, m int
 		fmt.Scan(&n, &m)
-		byRow := NewTable(n, m)
+		table := NewTable(n, m)
+		byColumn := ByColumn{table: table, len: n}
 
 		var k int
 		fmt.Scan(&k)
 		for i := 0; i < k; i++ {
-			fmt.Scan(&byRow.c)
-			sort.Sort(byRow)
+			fmt.Scan(&byColumn.c)
+			sort.Sort(byColumn)
 		}
 
-		for _, row := range byRow.tables {
+		for _, row := range table {
 			fmt.Println(row)
 		}
 		fmt.Println()
