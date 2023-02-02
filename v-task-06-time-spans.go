@@ -58,9 +58,7 @@ func ParseDates(dates *[2]time.Time, lineDates string) bool {
 	for i := range date {
 		var err error
 		dates[i], err = time.Parse("15:04:05", date[i])
-		if err != nil {
-			return false
-		}
+		return err == nil
 	}
 	return true
 }
