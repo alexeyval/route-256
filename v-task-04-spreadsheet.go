@@ -46,11 +46,11 @@ func main() {
 		var n, m int
 		fmt.Scan(&n, &m)
 		table := NewTable(n, m)
-		byColumn := ByColumn{table: table, len: n}
 
 		var k int
 		fmt.Scan(&k)
 		for i := 0; i < k; i++ {
+			byColumn := ByColumn{table: table, len: n}
 			fmt.Scan(&byColumn.c)
 			sort.Sort(byColumn)
 		}
