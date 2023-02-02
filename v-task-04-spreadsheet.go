@@ -19,7 +19,7 @@ func NewTable(n, m int) ByRow {
 		}
 		table[i].row = row
 	}
-	return ByRow{tables: table, len: m}
+	return ByRow{tables: table, len: n}
 }
 
 func (t Table) String() string {
@@ -33,7 +33,7 @@ type ByRow struct {
 }
 
 func (a ByRow) Swap(i, j int)      { a.tables[i], a.tables[j] = a.tables[j], a.tables[i] }
-func (a ByRow) Less(i, j int) bool { return a.tables[i].row[a.c-1] < a.tables[i].row[a.c-1] }
+func (a ByRow) Less(i, j int) bool { return a.tables[i].row[a.c-1] < a.tables[j].row[a.c-1] }
 func (a ByRow) Len() int           { return a.len }
 
 func main() {
