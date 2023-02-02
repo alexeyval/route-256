@@ -6,34 +6,36 @@ import (
 	"strings"
 )
 
-type Row struct {
-	row []int
-}
+type Table [][]int
 
-func NewTable(n, m int) []Row {
-	table := make([]Row, n)
+func NewTable(n, m int) Table {
+	table := make([][]int, n)
 	for i := range table {
 		row := make([]int, m)
 		for j := range row {
 			fmt.Scan(&row[j])
 		}
-		table[i].row = row
+		table[i] = row
 	}
 	return table
 }
 
-func (t Row) String() string {
-	return strings.Trim(fmt.Sprint(t.row), "[]")
+func (t Table) String() string {
+	sTable := ""
+	for _, row := range t {
+		sTable += strings.Trim(fmt.Sprint(row), "[]") + "\n"
+	}
+	return sTable
 }
 
 type ByColumn struct {
-	table []Row
+	table Table
 	c     int
 	len   int
 }
 
 func (a ByColumn) Swap(i, j int)      { a.table[i], a.table[j] = a.table[j], a.table[i] }
-func (a ByColumn) Less(i, j int) bool { return a.table[i].row[a.c-1] < a.table[j].row[a.c-1] }
+func (a ByColumn) Less(i, j int) bool { return a.table[i][a.c-1] < a.table[j][a.c-1] }
 func (a ByColumn) Len() int           { return a.len }
 
 func main() {
@@ -53,9 +55,6 @@ func main() {
 			sort.Sort(byColumn)
 		}
 
-		for _, row := range table {
-			fmt.Println(row)
-		}
-		fmt.Println()
+		fmt.Println(table)
 	}
 }
