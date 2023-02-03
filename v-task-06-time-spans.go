@@ -14,9 +14,9 @@ type timeSE struct {
 	end   time.Time
 }
 
-type Result bool
+type Fail bool
 
-func (t Result) String() string {
+func (t Fail) String() string {
 	switch t {
 	case true:
 		return "NO"
@@ -59,7 +59,7 @@ func main() {
 				break
 			}
 		}
-		fmt.Println(Result(fail))
+		fmt.Println(Fail(fail))
 	}
 }
 
