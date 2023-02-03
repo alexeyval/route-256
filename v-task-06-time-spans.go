@@ -32,11 +32,11 @@ func main() {
 			var s string
 			fmt.Scan(&s)
 
-			var dates [2]time.Time
-			if !ParseDates(&dates, s) || dates[0].After(dates[1]) {
+			var dates timeSE
+			if !ParseDates(&dates, s) || dates.start.After(dates.end) {
 				result[count] = "NO"
 			}
-			times = append(times, timeSE{start: dates[0], end: dates[1]})
+			times = append(times, dates)
 		}
 
 		sort.Sort(times)
@@ -53,12 +53,17 @@ func main() {
 	fmt.Println(strings.Join(result, "\n"))
 }
 
-func ParseDates(dates *[2]time.Time, lineDates string) bool {
-	date := strings.Split(lineDates, "-")
-	for i := range date {
+func ParseDates(t *timeSE, lineDates string) bool {
+	dates := strings.Split(lineDates, "-")
+	var d [2]time.Time
+	for i := range dates {
 		var err error
-		dates[i], err = time.Parse("15:04:05", date[i])
-		return err == nil
+		d[i], err = time.Parse("15:04:05", dates[i])
+		if err != nil {
+			return false
+		}
 	}
+	t.start = d[0]
+	t.end = d[1]
 	return true
 }
