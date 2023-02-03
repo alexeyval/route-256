@@ -16,12 +16,7 @@ type timeSE struct {
 
 type Fail bool
 
-func (fail Fail) String() string {
-	if fail {
-		return "NO"
-	}
-	return "YES"
-}
+func (fail Fail) String() string { return map[Fail]string{true: "NO", false: "YES"}[fail] }
 
 type TimeSEs []timeSE
 
