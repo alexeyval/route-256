@@ -16,8 +16,8 @@ type timeSE struct {
 
 type Fail bool
 
-func (t Fail) String() string {
-	switch t {
+func (fail Fail) String() string {
+	switch fail {
 	case true:
 		return "NO"
 	default:
@@ -27,9 +27,9 @@ func (t Fail) String() string {
 
 type TimeSEs []timeSE
 
-func (s TimeSEs) Less(i, j int) bool { return s[i].start.Before(s[j].start) }
-func (s TimeSEs) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
-func (s TimeSEs) Len() int           { return len(s) }
+func (t TimeSEs) Less(i, j int) bool { return t[i].start.Before(t[j].start) }
+func (t TimeSEs) Swap(i, j int)      { t[i], t[j] = t[j], t[i] }
+func (t TimeSEs) Len() int           { return len(t) }
 
 func main() {
 	reader := bufio.NewReader(os.Stdin)
