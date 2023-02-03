@@ -17,12 +17,10 @@ type timeSE struct {
 type Fail bool
 
 func (fail Fail) String() string {
-	switch fail {
-	case true:
+	if fail {
 		return "NO"
-	default:
-		return "YES"
 	}
+	return "YES"
 }
 
 type TimeSEs []timeSE
@@ -55,9 +53,6 @@ func main() {
 			start := times[i].start
 			endPrev := times[i-1].end
 			fail = fail || start.Before(endPrev) || start.Equal(endPrev)
-			if fail {
-				break
-			}
 		}
 		fmt.Println(Fail(fail))
 	}
