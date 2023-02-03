@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"sort"
 	"strings"
 )
@@ -13,7 +15,7 @@ func NewTable(n, m int) Table {
 	for i := range table {
 		row := make([]int, m)
 		for j := range row {
-			fmt.Scan(&row[j])
+			fmt.Fscan(reader, &row[j])
 		}
 		table[i] = row
 	}
@@ -38,21 +40,24 @@ func (a ByColumn) Swap(i, j int)      { a.table[i], a.table[j] = a.table[j], a.t
 func (a ByColumn) Less(i, j int) bool { return a.table[i][a.c-1] < a.table[j][a.c-1] }
 func (a ByColumn) Len() int           { return a.len }
 
+var reader *bufio.Reader
+
 func main() {
+	reader = bufio.NewReader(os.Stdin)
 	var t int
-	fmt.Scan(&t)
+	fmt.Fscan(reader, &t)
 
 	for count := 0; count < t; count++ {
 		var n, m int
-		fmt.Scan(&n, &m)
+		fmt.Fscan(reader, &n, &m)
 		table := NewTable(n, m)
 
 		var k int
-		fmt.Scan(&k)
+		fmt.Fscan(reader, &k)
 		for i := 0; i < k; i++ {
 			byColumn := ByColumn{table: table, len: n}
-			fmt.Scan(&byColumn.c)
-			sort.Sort(byColumn)
+			fmt.Fscan(reader, &byColumn.c)
+			sort.Stable(byColumn)
 		}
 
 		fmt.Println(table)
