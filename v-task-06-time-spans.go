@@ -14,6 +14,17 @@ type timeSE struct {
 	end   time.Time
 }
 
+type Result bool
+
+func (t Result) String() string {
+	switch t {
+	case true:
+		return "NO"
+	default:
+		return "YES"
+	}
+}
+
 type TimeSEs []timeSE
 
 func (s TimeSEs) Less(i, j int) bool { return s[i].start.Before(s[j].start) }
@@ -25,9 +36,8 @@ func main() {
 	var t int
 	fmt.Fscan(reader, &t)
 
-	result := ""
 	for count := 0; count < t; count++ {
-		result = "YES"
+		result := false
 		times := TimeSEs{}
 		var n int
 		fmt.Fscan(reader, &n)
@@ -36,9 +46,7 @@ func main() {
 			fmt.Fscan(reader, &s)
 
 			var dates timeSE
-			if !ParseDates(&dates, s) || dates.start.After(dates.end) {
-				result = "NO"
-			}
+			result = result || (!ParseDates(&dates, s) || dates.start.After(dates.end))
 			times = append(times, dates)
 		}
 
@@ -46,12 +54,12 @@ func main() {
 		for i := 1; i < len(times); i++ {
 			start := times[i].start
 			endPrev := times[i-1].end
-			if start.Before(endPrev) || start.Equal(endPrev) {
-				result = "NO"
+			result = result || start.Before(endPrev) || start.Equal(endPrev)
+			if result {
 				break
 			}
 		}
-		fmt.Println(result)
+		fmt.Println(Result(result))
 	}
 }
 
