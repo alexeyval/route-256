@@ -25,9 +25,9 @@ func main() {
 	var t int
 	fmt.Fscan(reader, &t)
 
-	result := make([]string, t)
+	result := ""
 	for count := 0; count < t; count++ {
-		result[count] = "YES"
+		result = "YES"
 		times := TimeSEs{}
 		var n int
 		fmt.Fscan(reader, &n)
@@ -37,7 +37,7 @@ func main() {
 
 			var dates timeSE
 			if !ParseDates(&dates, s) || dates.start.After(dates.end) {
-				result[count] = "NO"
+				result = "NO"
 			}
 			times = append(times, dates)
 		}
@@ -47,11 +47,11 @@ func main() {
 			start := times[i].start
 			endPrev := times[i-1].end
 			if start.Before(endPrev) || start.Equal(endPrev) {
-				result[count] = "NO"
+				result = "NO"
 				break
 			}
 		}
-		fmt.Println(result[count])
+		fmt.Println(result)
 	}
 }
 
